@@ -1,0 +1,18 @@
+{
+  "name": "playwright-mcp-server",
+  "version": "1.0.0",
+  "description": "A Playwright MCP server for browser automation.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "PLAYWRIGHT_BROWSERS_PATH=./playwright-browsers playwright test",
+    "postinstall": "PLAYWRIGHT_BROWSERS_PATH=./playwright-browsers npx playwright install chromium || true"
+  },
+  "keywords": [],
+  "author": "wei lian",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.42.1",
+    "playwright": "^1.42.1"
+  }
+}

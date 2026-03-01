@@ -1,0 +1,7 @@
+node_modules/
+playwright-browsers/
+test-results/
+playwright-report/
+*.zip
+.env
+.env.local

@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  playwright-mcp:
+    image: mcp/playwright:latest
+    ports:
+      - "4444:4444"
