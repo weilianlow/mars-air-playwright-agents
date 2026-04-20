@@ -5,3 +5,7 @@ playwright-report/
 *.zip
 .env
 .env.local
+.playwright/
+.playwright-cli/
+.vscode/
+.DS_Store

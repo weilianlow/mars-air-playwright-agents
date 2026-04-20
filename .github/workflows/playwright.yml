@@ -1,0 +1,44 @@
+name: "Playwright Tests"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/playwright.yml
+  pull_request:
+    paths:
+      - .github/workflows/playwright.yml
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Chromium browser
+      run: npx playwright install --with-deps chromium-headless-shell
+
+    - name: Run Playwright tests
+      run: npx playwright test
+
+    - name: Upload Playwright report
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 7

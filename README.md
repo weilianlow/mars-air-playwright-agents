@@ -29,9 +29,16 @@ The MCP server is containerized using Docker for easy setup.
     ```bash
     npm install
     ```
-3. ** Update `.vscode/mcp.json`
+3. **Update** the`.vscode/mcp.json`
     ```json
-    
+    {
+        "servers": {
+            "playwright-mcp-server": {
+            "url": "http://localhost:4444",
+            "type": "http"
+            }
+        }
+    }
     ```
 
 ## Agent-Driven Workflow

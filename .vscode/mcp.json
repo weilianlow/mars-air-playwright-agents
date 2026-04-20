@@ -1,0 +1,11 @@
+{
+	"servers": {
+		"playwright-test": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			]
+		}
+	},
+	"inputs": []
+}

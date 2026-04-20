@@ -1,6 +1,9 @@
 version: '3.8'
 services:
   playwright-mcp:
-    image: mcp/playwright:latest
-    ports:
-      - "4444:4444"
+    image: mcp/playwright:latest # Official image from MCP:Hub
+    container_name: playwright-mcp-server
+    stdin_open: true # Required for stdio communication
+    tty: true
+    environment:
+      - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
