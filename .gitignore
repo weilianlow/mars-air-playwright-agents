@@ -9,3 +9,9 @@ playwright-report/
 .playwright-cli/
 .vscode/
 .DS_Store
+
+# Local Claude/Copilot settings
+.claude/settings.local.json
+
+# Copilot data migration temp files
+copilot.data.migration.*.xml

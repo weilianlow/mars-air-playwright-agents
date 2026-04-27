@@ -48,9 +48,9 @@ digraph auth_check {
 acli jira auth status
 
 # If not authenticated, login first
-echo "$(sed -n '3p' ~/.acli/creds.txt)" | acli jira auth login \
-  --site "$(sed -n '1p' ~/.acli/creds.txt)" \
-  --email "$(sed -n '2p' ~/.acli/creds.txt)" \
+echo "$(jq -r '.token' ~/.acli/creds.json)" | acli jira auth login \
+  --site "$(jq -r '.site' ~/.acli/creds.json)" \
+  --email "$(jq -r '.email' ~/.acli/creds.json)" \
   --token
 ```
 

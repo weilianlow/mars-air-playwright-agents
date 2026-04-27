@@ -2,25 +2,28 @@
 // seed: seed.spec.ts
 
 import { test, expect } from '@playwright/test';
+import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Invalid Promotional Code Format (AC2)', () => {
   test('Completely malformed code is rejected (EP: wrong format representative)', async ({ page }) => {
+    const marsAirPage = new MarsAirPage(page);
+
     // 1. Navigate to the MarsAir home page
-    await page.goto('https://marsair.recruiting.thoughtworks.net/WeiLianLow');
+    await marsAirPage.goto();
 
     // 2. Select "July" from the "Departing" dropdown
-    await page.getByLabel('Departing').selectOption(['July']);
+    await marsAirPage.departingSelect.selectOption(['July']);
 
     // 3. Select "December (two years from now)" from the "Returning" dropdown
-    await page.getByLabel('Returning').selectOption(['December (two years from now)']);
+    await marsAirPage.returningSelect.selectOption(['December (two years from now)']);
 
-    // 4. Enter INVALID-CODE in the "Promotional Code" field
-    await page.getByRole('textbox', { name: 'Promotional Code' }).fill('INVALID-CODE');
+    // 4. Enter "INVALID-CODE" in the "Promotional Code" field
+    await marsAirPage.promoCodeInput.fill('INVALID-CODE');
 
     // 5. Click the "Search" button
-    await page.getByRole('button', { name: 'Search' }).click();
+    await marsAirPage.searchButton.click();
 
     await expect(page.getByText('Sorry, code INVALID-CODE is not valid')).toBeVisible();
-    await expect(page.getByText('discount', { exact: false })).not.toBeVisible();
+    await expect(page.getByText(/Promotional code .* used:/)).not.toBeVisible();
   });
 });

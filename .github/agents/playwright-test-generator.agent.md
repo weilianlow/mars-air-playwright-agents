@@ -26,6 +26,11 @@ application behavior.
   - Includes a comment with the step text before each step execution. Do not duplicate comments if step requires
     multiple actions.
   - Always use best practices (prefer role-based locators, add assertions for expected outcomes).
+  - Use the Page Object Model (POM) for all locators:
+    - Derive the page object file path as `pages/${app}/<uri-path>.ts` where `<uri-path>` is the URL path of the page under test (e.g. `/flights` → `pages/mars-air/flights.ts`).
+    - If the file exists, read it and reuse any existing locators that match before adding new ones.
+    - If the file does not exist, or new locators are needed, add them to the page object file.
+    - Import and use the page object class in the test file instead of inline locators.
 
    <example-generation>
    For following plan:

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "lint": "eslint .",
     "test": "PLAYWRIGHT_BROWSERS_PATH=./playwright-browsers playwright test",
     "test:debug": "PLAYWRIGHT_BROWSERS_PATH=./playwright-browsers playwright test --debug",
     "test:ui": "PLAYWRIGHT_BROWSERS_PATH=./playwright-browsers playwright test --ui",
@@ -21,6 +22,9 @@
     "playwright": "^1.42.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.59.1"
+    "@playwright/test": "^1.59.1",
+    "eslint": "^9.39.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.0"
   }
 }

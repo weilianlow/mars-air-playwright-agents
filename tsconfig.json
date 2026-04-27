@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node", 
+    "ignoreDeprecations": "6.0",
+    "paths": { "@pages/*": ["./pages/*"] },
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "playwright-browsers", "playwright-report"]
+}
