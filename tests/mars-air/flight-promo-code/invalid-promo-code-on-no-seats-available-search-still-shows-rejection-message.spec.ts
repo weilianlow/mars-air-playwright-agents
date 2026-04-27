@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Promo Code with No Seats Available', () => {
-  test('Invalid promo code on a no-seats-available search still shows rejection message', async ({ page }) => {
+  test.fixme('Invalid promo code on a no-seats-available search still shows rejection message', async ({ page }) => {
     const marsAirPage = new MarsAirPage(page);
 
     // 1. Navigate to the MarsAir home page

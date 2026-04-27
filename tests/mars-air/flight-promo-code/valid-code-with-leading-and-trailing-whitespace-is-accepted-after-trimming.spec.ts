@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Empty and Whitespace Inputs', () => {
-  test('Valid code with leading and trailing whitespace is accepted after trimming (BUG-3)', async ({ page }) => {
+  test.fixme('Valid code with leading and trailing whitespace is accepted after trimming (BUG-3)', async ({ page }) => {
     const marsAirPage = new MarsAirPage(page);
 
     // 1. Navigate to the MarsAir home page

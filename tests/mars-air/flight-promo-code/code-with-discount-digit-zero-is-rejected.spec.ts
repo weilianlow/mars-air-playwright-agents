@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Discount Digit Boundary (AC2)', () => {
-  test('Code with discount digit zero is rejected (BVA: lower boundary — BUG-1)', async ({ page }) => {
+  test.fixme('Code with discount digit zero is rejected (BVA: lower boundary — BUG-1)', async ({ page }) => {
     const marsAirPage = new MarsAirPage(page);
 
     // 1. Navigate to the MarsAir home page

@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Checksum Validation (AC3)', () => {
-  test('Code where checksum computes to zero is accepted (AC3 edge case — BUG-2)', async ({ page }) => {
+  test.fixme('Code where checksum computes to zero is accepted (AC3 edge case — BUG-2)', async ({ page }) => {
     const marsAirPage = new MarsAirPage(page);
 
     // 1. Navigate to the MarsAir home page

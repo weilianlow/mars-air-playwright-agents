@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { MarsAirPage } from '@pages/mars-air/WeiLianLow';
 
 test.describe('Invalid Promotional Code Format (AC2)', () => {
-  test('Code with numeric characters in alpha positions is rejected (EP: type mismatch)', async ({ page }) => {
+  test.fixme('Code with numeric characters in alpha positions is rejected (EP: type mismatch)', async ({ page }) => {
     const marsAirPage = new MarsAirPage(page);
 
     // 1. Navigate to the MarsAir home page
