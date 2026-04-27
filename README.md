@@ -1,82 +1,106 @@
-# Playwright MCP Server
+# Mars Air – Playwright Agents
 
-This project demonstrates an agent-driven workflow for planning, generating, and healing Playwright tests using the Model-Context-Protocol (MCP).
-
-## Overview
-
-This repository is a self-contained example of how to use AI agents to automate the testing lifecycle for a web application. It uses a local MCP server running in Docker and a set of specialized agents to interact with a Playwright test suite.
+An agent-driven Playwright test automation project for the [MarsAir](https://marsair.recruiting.thoughtworks.net/WeiLianLow) recruitment demo application. It demonstrates how AI agents can plan, generate, and heal end-to-end tests using the Model Context Protocol (MCP).
 
 The agents are based on the concepts described in the [Playwright documentation for Test Agents](https://playwright.dev/docs/test-agents).
 
+## Project Structure
+
+```
+.github/agents/          # Agent definitions (planner, generator, healer)
+.github/skills/          # Skill files used by agents (playwright-cli, atlassian-cli)
+pages/mars-air/          # Page Object Model classes
+specs/mars-air/          # Test plans (markdown)
+tests/mars-air/          # Playwright test specs (TypeScript)
+playwright.config.ts     # Playwright configuration
+docker-compose.yml       # MCP server container
+```
+
+### Test Areas
+
+| Area | Test Plan | Tests |
+|------|-----------|-------|
+| `flight-search` | `specs/mars-air/flight-search/test_plan.md` | — |
+| `flight-promo-code` | `specs/mars-air/flight-promo-code/test_plan.md` | `tests/mars-air/flight-promo-code/` |
+| `flight-validation` | `specs/mars-air/flight-validation/test_plan.md` | — |
+| `site-navigation` | `specs/mars-air/site-navigation/test_plan.md` | — |
+
 ## Setup
 
-The MCP server is containerized using Docker for easy setup.
+### Prerequisites
 
-1.  **Start the MCP Server:**
-    
-    Make sure you have Docker installed and running. Then, start the server using Docker Compose:
-    
-    ```bash
-    docker-compose up -d playwright-mcp
-    ```
-    
-    This will start the MCP server, which will be available on `localhost:4444`.
+- [Node.js](https://nodejs.org/) (LTS)
+- [Docker](https://www.docker.com/) (for the MCP server)
 
-2.  **Install Dependencies:**
-    
-    In a separate terminal, install the project's `npm` dependencies:
-    
-    ```bash
-    npm install
-    ```
-3. **Update** the`.vscode/mcp.json`
-    ```json
-    {
-        "servers": {
-            "playwright-mcp-server": {
-            "url": "http://localhost:4444",
-            "type": "http"
-            }
-        }
+### 1. Start the MCP Server
+
+```bash
+docker-compose up -d playwright-mcp
+```
+
+This starts the Playwright MCP server container used by the agents.
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+Chromium is installed automatically into `./playwright-browsers/` via the `postinstall` script.
+
+### 3. Configure the MCP Server in VS Code
+
+Create `.vscode/mcp.json` with the following content:
+
+```json
+{
+  "servers": {
+    "playwright-mcp-server": {
+      "url": "http://localhost:4444",
+      "type": "http"
     }
-    ```
+  }
+}
+```
 
 ## Agent-Driven Workflow
 
-This project uses a three-agent workflow to manage the testing process.
+Three agents (defined in `.github/agents/`) drive the full testing lifecycle.
 
-### 1. Planning Tests
+### 1. Test Planner (`copilot-playwright-test-planner`)
 
-The `playwright-test-planner.agent.md` is responsible for exploring the target application and creating a comprehensive test plan.
+Explores the target application using `playwright-cli`, applies boundary value analysis and equivalence partitioning, and saves a structured test plan to `specs/mars-air/<feature>/test_plan.md`.
 
-**To invoke the planner agent:**
+**Invoke via GitHub Copilot:** `@copilot-playwright-test-planner create a test plan for <url>`
 
-You would typically use a client that can interact with the MCP server, providing the agent's definition and the target URL. The agent will then perform exploratory testing and generate a `test-plan.md` file.
+### 2. Test Generator (`copilot-playwright-test-generator`)
 
-### 2. Generating Tests
+Takes a test plan as input, executes each step interactively using `playwright-cli`, collects the generated code, and writes typed Playwright specs to `tests/mars-air/<feature>/`. Page Object Model classes are created or updated in `pages/mars-air/`.
 
-The `playwright-test-generator.agent.md` takes the `test-plan.md` as input and generates the corresponding Playwright test files.
+**Invoke via GitHub Copilot:** `@copilot-playwright-test-generator generate tests from specs/mars-air/<feature>/test_plan.md`
 
-**To invoke the generator agent:**
+### 3. Test Healer (`copilot-playwright-test-healer`)
 
-Using your MCP client, you would provide the generator agent's definition and the `test-plan.md`. The agent will then write the test files to the `tests/` directory.
+Reads `test-results/.last-run.json`, attaches to failing tests via `playwright-cli`, diagnoses selector or assertion failures, patches the test code, and re-runs until clean.
 
-### 3. Healing Tests
+**Invoke via GitHub Copilot:** `@copilot-playwright-test-healer fix failing tests`
 
-If tests fail due to changes in the application, the `playwright-test-healer.agent.md` can be used to automatically repair them.
+## Running Tests
 
-**To invoke the healer agent:**
+| Command | Description |
+|---------|-------------|
+| `npm test` | Run all tests headlessly |
+| `npm run test:headed` | Run with a visible browser |
+| `npm run test:debug` | Run in Playwright debug mode |
+| `npm run test:ui` | Open Playwright UI mode |
+| `npm run test:trace` | Run with tracing enabled |
+| `npm run show-report` | Open the last HTML report |
+| `npm run lint` | Lint the codebase with ESLint |
 
-You would provide the healer agent's definition and the results of a failed test run. The agent will then attempt to fix the failing tests.
-
-## Running Tests Manually
-
-You can also run the Playwright tests manually without using the agents.
-
-To run all the tests, use the following command:
+Tests run against `https://marsair.recruiting.thoughtworks.net/WeiLianLow` by default. Override with the `BASE_URL` environment variable:
 
 ```bash
-npm test
+BASE_URL=https://your-instance.example.com npm test
 ```
 
-This will execute all the test files in the `tests/` directory and generate an HTML report in the `playwright-report` directory.
+HTML reports are saved to `playwright-report/`.
