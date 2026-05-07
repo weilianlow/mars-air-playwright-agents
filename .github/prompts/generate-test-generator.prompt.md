@@ -4,5 +4,5 @@ agent: "copilot-playwright-test-generator"
 tools: ['edit', 'read', 'search', 'execute', 'agent']
 ---
 
-Converts the generated test plan at specs/${app}/${feature}/test_plan.md into executable Playwright test files.
-- Output Directory: tests/${app}/${feature}/
+Converts the generated test plan at specs/${app}/${test_path}.md into executable Playwright test files.
+- Output Directory: tests/${app}/${test_path}.ts

@@ -17,6 +17,7 @@ export default defineConfig({
     baseURL:
       process.env.BASE_URL ?? 'https://marsair.recruiting.thoughtworks.net/WeiLianLow',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
     // Site can return "Not authorized" when request doesn't look like a normal browser visit
     extraHTTPHeaders: {
       Referer: process.env.BASE_URL ?? 'https://marsair.recruiting.thoughtworks.net/WeiLianLow',
