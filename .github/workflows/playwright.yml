@@ -23,6 +23,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Create CTRF report directory
+      run: mkdir -p playwright-report/ctrf
+
     - name: Run Playwright tests
       run: npx playwright test
 
