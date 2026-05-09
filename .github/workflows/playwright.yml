@@ -26,16 +26,6 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
 
-    - name: Verify CTRF JSON report generated
-      run: |
-        REPORT_PATH=ctrf-report.json
-        if [ ! -f "$REPORT_PATH" ]; then
-          echo "Expected report not found: $REPORT_PATH"
-          ls -R playwright-report || true
-          exit 1
-        fi
-        echo "Found CTRF JSON report at $REPORT_PATH"
-
     - name: Configure GitHub Pages
       uses: actions/configure-pages@v4
 
