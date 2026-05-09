@@ -12,7 +12,16 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [['html']],
+  reporter: [
+    ['html'],
+    [
+      'playwright-ctrf-json-reporter',
+      {
+        outputDir: 'playwright-report/ctrf',
+        outputFile: 'ctrf-report.json',
+      },
+    ],
+  ],
   use: {
     baseURL:
       process.env.BASE_URL ?? 'https://marsair.recruiting.thoughtworks.net/WeiLianLow',

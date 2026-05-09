@@ -26,10 +26,37 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
 
+    - name: Verify CTRF JSON report generated
+      run: |
+        REPORT_PATH=playwright-report/ctrf/ctrf-report.json
+        if [ ! -f "$REPORT_PATH" ]; then
+          echo "Expected report not found: $REPORT_PATH"
+          ls -R playwright-report || true
+          exit 1
+        fi
+        echo "Found CTRF JSON report at $REPORT_PATH"
+
+    - name: Configure GitHub Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload report to GitHub Pages artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: playwright-report
+
+    - name: Deploy Playwright report to GitHub Pages
+      id: deploy-pages
+      uses: actions/deploy-pages@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Show GitHub Pages report URL
+      run: echo "Playwright report deployed to: ${{ steps.deploy-pages.outputs.page_url }}"
+
     - name: Upload Playwright report
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        path: playwright-report/
+        path: playwright-report/**
         retention-days: 1
