@@ -15,11 +15,7 @@ export default defineConfig({
   reporter: [
     ['html'],
     [
-      'playwright-ctrf-json-reporter',
-      {
-        outputDir: 'playwright-report/ctrf',
-        outputFile: 'ctrf-report.json',
-      },
+      'playwright-ctrf-json-reporter',{},
     ],
   ],
   use: {
